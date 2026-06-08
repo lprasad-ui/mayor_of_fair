@@ -3,95 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mayor of the Fair 2026</title>
+  <title>Mayor of the Fair 2026 — Virginia Voter Guide</title>
   <style>
-    /* ── Reset & base ── */
+    /* ── Brand palette ─────────────────────────────────────────────────────────
+       Source: https://maketintsandshades.com/#colors=5b1453,009192,e96a26,46494b
+       #5b1453  plum / deep purple
+       #009192  teal
+       #e96a26  orange
+       #46494b  charcoal
+    ──────────────────────────────────────────────────────────────────────────── */
+    :root {
+      --plum:     #5b1453;
+      --plum-lt:  #8c4585;   /* ~40% tint */
+      --plum-bg:  #f5eef4;   /* ~90% tint */
+      --teal:     #009192;
+      --teal-lt:  #66bfbf;
+      --teal-bg:  #e5f5f5;
+      --orange:   #e96a26;
+      --orange-lt:#f4a876;
+      --orange-bg:#fdf2ea;
+      --charcoal: #46494b;
+      --gray-lt:  #dfe0e1;
+      --white:    #ffffff;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
-      background: #fdf6e3;
+      background: var(--plum-bg);
       min-height: 100vh;
-      padding: 16px;
+      padding: 20px 16px 40px;
     }
 
-    /* ── Widget shell (embeddable) ── */
+    /* ── Widget shell ────────────────────────────────────────────────────────── */
     .widget {
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
-      background: #fff;
+      background: var(--white);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,.12);
+      box-shadow: 0 6px 32px rgba(91,20,83,.18);
     }
 
-    /* ── Banner ── */
+    /* ── Banner ─────────────────────────────────────────────────────────────── */
     .banner {
-      background: linear-gradient(135deg, #ff6b35 0%, #f7c59f 50%, #fffbe6 100%);
-      padding: 28px 24px 20px;
+      background: var(--plum);
+      padding: 28px 24px 22px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .banner::before {
-      content: "🎡 🎠 🎡 🎠 🎡 🎠 🎡 🎠 🎡 🎠 🎡 🎠 🎡 🎠 🎡";
-      font-size: 14px;
-      display: block;
-      letter-spacing: 4px;
-      opacity: .55;
-      margin-bottom: 8px;
+    .banner::after {
+      /* subtle star-field texture */
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.15) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size: 30px 30px, 17px 17px;
+      background-position: 0 0, 15px 15px;
+      pointer-events: none;
+    }
+    .banner-inner { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 10px;
     }
     .banner h1 {
-      font-size: clamp(1.5rem, 5vw, 2.4rem);
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
       font-weight: 900;
-      color: #7b2d00;
-      text-shadow: 0 2px 0 rgba(255,255,255,.4);
-      line-height: 1.15;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 6px;
     }
-    .banner h1 span { color: #d94f00; }
-    .banner p {
-      margin-top: 6px;
-      font-size: .9rem;
-      color: #7b4a2d;
+    .banner h1 em {
+      font-style: normal;
+      color: var(--orange-lt);
     }
-    .badge {
-      display: inline-block;
-      background: #7b2d00;
-      color: #fff;
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 99px;
-      margin-bottom: 8px;
+    .banner-sub {
+      font-size: .88rem;
+      color: rgba(255,255,255,.75);
+      max-width: 480px;
+      margin: 0 auto;
     }
 
-    /* ── Location tabs ── */
-    .tabs-wrap {
-      padding: 16px 20px 0;
-      border-bottom: 2px solid #f0e6d3;
-      background: #fff9f2;
+    /* ── Location tabs ───────────────────────────────────────────────────────── */
+    .tabs-section {
+      background: var(--plum-bg);
+      border-bottom: 2px solid var(--gray-lt);
+      padding: 14px 20px 0;
     }
     .tabs-label {
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .08em;
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: #9e6a3c;
-      margin-bottom: 8px;
+      color: var(--plum-lt);
+      margin-bottom: 10px;
     }
     .tabs {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      padding-bottom: 0;
     }
     .tab-btn {
-      border: 2px solid #e8d5c0;
-      background: #fff;
-      color: #7b4a2d;
-      padding: 7px 14px;
+      border: 2px solid var(--gray-lt);
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 7px 16px;
       border-radius: 10px 10px 0 0;
       font-size: .82rem;
       font-weight: 600;
@@ -99,112 +128,129 @@
       transition: all .18s;
       position: relative;
       top: 2px;
+      line-height: 1;
     }
     .tab-btn:hover {
-      background: #fff3e8;
-      border-color: #d94f00;
-      color: #d94f00;
+      border-color: var(--teal);
+      color: var(--teal);
+      background: var(--teal-bg);
     }
     .tab-btn.active {
-      background: #d94f00;
-      border-color: #d94f00;
-      color: #fff;
-      top: 2px;
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--white);
+    }
+    .tab-btn .tab-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+      background: currentColor;
+      opacity: .6;
     }
 
-    /* ── Results body ── */
-    .results-body {
-      padding: 20px;
-    }
+    /* ── Results body ────────────────────────────────────────────────────────── */
+    .results-body { padding: 22px 20px 20px; }
 
-    .location-title {
-      font-size: .85rem;
+    .location-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .location-heading h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--plum);
+    }
+    .vote-count-badge {
+      background: var(--orange-bg);
+      color: var(--orange);
+      font-size: .72rem;
       font-weight: 700;
-      color: #9e6a3c;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      margin-bottom: 16px;
-    }
-    .location-title span {
-      color: #222;
-      font-size: 1rem;
-      text-transform: none;
-      letter-spacing: 0;
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1px solid var(--orange-lt);
     }
 
-    /* ── Candidate cards ── */
+    /* ── Candidate grid ──────────────────────────────────────────────────────── */
     .candidates {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
       gap: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .card {
-      border: 2px solid #f0e6d3;
-      border-radius: 14px;
-      padding: 14px 12px 12px;
+      border: 2px solid var(--gray-lt);
+      border-radius: 16px;
+      padding: 16px 12px 14px;
       text-align: center;
-      background: #fff;
-      transition: transform .18s, box-shadow .18s, border-color .18s;
+      background: var(--white);
+      transition: transform .2s, box-shadow .2s, border-color .2s;
       position: relative;
+      cursor: default;
     }
     .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 18px rgba(0,0,0,.1);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 22px rgba(91,20,83,.12);
+      border-color: var(--plum-lt);
     }
-    .card.leader {
-      border-color: #f7c200;
-      background: linear-gradient(160deg, #fffde7 0%, #fff9c4 100%);
-      box-shadow: 0 0 0 3px #f7c20044;
+
+    /* Winner card */
+    .card.winner {
+      border-color: var(--teal);
+      background: var(--teal-bg);
     }
-    .card.leader::after {
-      content: "🏆 Leading";
+    .card.winner::before {
+      content: "🏆 Winner";
       position: absolute;
-      top: -11px;
+      top: -13px;
       left: 50%;
       transform: translateX(-50%);
-      background: #f7c200;
-      color: #5a4000;
-      font-size: .65rem;
+      background: var(--teal);
+      color: var(--white);
+      font-size: .62rem;
       font-weight: 800;
-      padding: 2px 10px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 3px 12px;
       border-radius: 99px;
       white-space: nowrap;
     }
 
-    .card-emoji {
-      font-size: 2.8rem;
-      line-height: 1;
-      margin-bottom: 6px;
-      display: block;
-      /* placeholder for real candidate logo */
-    }
-    .card-logo {
-      width: 64px;
-      height: 64px;
+    /* Candidate avatar */
+    .card-avatar {
+      width: 88px;
+      height: 88px;
       object-fit: contain;
-      margin-bottom: 6px;
-      border-radius: 50%;
-      border: 2px solid #f0e6d3;
-    }
-    .card-name {
-      font-size: .88rem;
-      font-weight: 800;
-      color: #333;
-      line-height: 1.25;
-      margin-bottom: 2px;
-    }
-    .card-title {
-      font-size: .7rem;
-      color: #9e6a3c;
-      margin-bottom: 8px;
+      margin: 0 auto 8px;
+      display: block;
     }
 
-    /* bar */
+    .card-name {
+      font-size: .9rem;
+      font-weight: 800;
+      color: var(--charcoal);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .card-tagline {
+      font-size: .68rem;
+      color: var(--plum-lt);
+      font-style: italic;
+      margin-bottom: 10px;
+      line-height: 1.3;
+      min-height: 2.6em;
+    }
+
+    /* Vote bar */
     .bar-track {
-      height: 10px;
-      background: #f0e6d3;
+      height: 8px;
+      background: var(--gray-lt);
       border-radius: 99px;
       overflow: hidden;
       margin-bottom: 5px;
@@ -212,49 +258,64 @@
     .bar-fill {
       height: 100%;
       border-radius: 99px;
-      transition: width .7s cubic-bezier(.4,0,.2,1);
+      background: var(--teal);
+      transition: width .65s cubic-bezier(.4,0,.2,1);
     }
-    .card-votes {
+    .card.winner .bar-fill { background: var(--teal); }
+
+    .card-stat {
       font-size: .78rem;
       font-weight: 700;
-      color: #555;
+      color: var(--charcoal);
     }
     .card-pct {
       font-size: .68rem;
-      color: #999;
-      margin-left: 3px;
+      color: #888;
+      margin-left: 4px;
+      font-weight: 400;
     }
 
-    /* ── Total strip ── */
-    .totals-strip {
-      background: #fff9f2;
-      border: 1px solid #f0e6d3;
-      border-radius: 12px;
-      padding: 10px 16px;
+    /* ── Summary strip ───────────────────────────────────────────────────────── */
+    .summary-strip {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      background: var(--plum-bg);
+      border: 1.5px solid var(--gray-lt);
+      border-radius: 12px;
+      padding: 10px 16px;
       font-size: .8rem;
-      color: #7b4a2d;
+      color: var(--plum-lt);
+      flex-wrap: wrap;
     }
-    .totals-strip strong { color: #333; }
+    .summary-strip strong { color: var(--plum); }
+    .summary-sep {
+      width: 1px;
+      height: 16px;
+      background: var(--gray-lt);
+      flex-shrink: 0;
+    }
 
-    /* ── Footer ── */
+    /* ── Footer ─────────────────────────────────────────────────────────────── */
     .widget-footer {
       padding: 12px 20px;
-      border-top: 1px solid #f0e6d3;
-      background: #fff9f2;
+      border-top: 1.5px solid var(--gray-lt);
+      background: var(--plum-bg);
       font-size: .7rem;
-      color: #b08060;
+      color: var(--plum-lt);
       text-align: center;
     }
-    .widget-footer a { color: #d94f00; text-decoration: none; }
+    .widget-footer a {
+      color: var(--teal);
+      font-weight: 600;
+      text-decoration: none;
+    }
     .widget-footer a:hover { text-decoration: underline; }
 
-    /* ── Responsive ── */
-    @media (max-width: 480px) {
+    /* ── Responsive ─────────────────────────────────────────────────────────── */
+    @media (max-width: 500px) {
       .candidates { grid-template-columns: repeat(2, 1fr); }
-      .tabs { gap: 4px; }
+      .banner h1 { font-size: 1.5rem; }
       .tab-btn { padding: 6px 10px; font-size: .75rem; }
     }
   </style>
@@ -265,144 +326,210 @@
 
   <!-- Banner -->
   <div class="banner">
-    <div class="badge">Virginia Voter Guide 2026</div>
-    <h1>Mayor of the <span>Fair</span> 🎪</h1>
-    <p>Kids at local fairs picked their favorite candidate. Who's winning?</p>
+    <div class="banner-inner">
+      <div class="eyebrow">Virginia Voter Guide 2026</div>
+      <h1>Mayor of the <em>Fair</em> 🎪</h1>
+      <p class="banner-sub">Kids at community tabling events picked their favorite candidate. See who's winning!</p>
+    </div>
   </div>
 
-  <!-- Location tabs -->
-  <div class="tabs-wrap">
-    <div class="tabs-label">Choose a fair location</div>
+  <!-- Tabs -->
+  <div class="tabs-section">
+    <div class="tabs-label">📍 Choose a fair</div>
     <div class="tabs" id="tabs-container"></div>
   </div>
 
   <!-- Results -->
   <div class="results-body">
-    <div class="location-title">Results at: <span id="location-name"></span></div>
+    <div class="location-heading">
+      <h2 id="location-heading-text"></h2>
+      <span class="vote-count-badge" id="vote-count-badge"></span>
+    </div>
     <div class="candidates" id="candidates-container"></div>
-    <div class="totals-strip" id="totals-strip"></div>
+    <div class="summary-strip" id="summary-strip"></div>
   </div>
 
   <!-- Footer -->
   <div class="widget-footer">
-    Kids voted at community tabling events &mdash;
+    Results collected at community tabling events &mdash; not a real election &bull;
     <a href="https://vva.lfg.guide" target="_blank">Virginia Voter Guide 2026</a>
-    &bull; Not a real election
   </div>
 
 </div>
 
 <script>
-// ── Data ─────────────────────────────────────────────────────────────────────
-// Replace with real data. Each candidate has an emoji fallback; swap `logo`
-// for an actual image path when assets are ready.
+// ── Candidate roster ──────────────────────────────────────────────────────────
+// taglines come from the voter guide PDFs
+const CANDIDATES = {
+  spring: [
+    {
+      id: "sunny",
+      name: "Sunny the Sunshine",
+      tagline: "I will make every day bright and fun",
+      logo: "assets/candidates/sunny-the-sunshine.svg",
+    },
+    {
+      id: "betty",
+      name: "Betty the Butterfly",
+      tagline: "I will throw magical dance parties",
+      logo: "assets/candidates/betty-the-butterfly.png",
+    },
+    {
+      id: "frank",
+      name: "Frank the Flower",
+      tagline: "I will turn every place into a colorful garden",
+      logo: "assets/candidates/frank-the-flower.png",
+    },
+    {
+      id: "linda",
+      name: "Linda the Ladybug",
+      tagline: "I will be your tiny superhero",
+      logo: "assets/candidates/linda-the-ladybug.png",
+    },
+  ],
+  hop: [
+    {
+      id: "buttons",
+      name: "Buttons",
+      tagline: "Buttons for Mayor!",
+      logo: null,
+      emoji: "🐶",
+    },
+    {
+      id: "bunny",
+      name: "Easter Bunny",
+      tagline: "Hoppy days are coming",
+      logo: null,
+      emoji: "🐰",
+    },
+    {
+      id: "lulu",
+      name: "Lulu the Lamb",
+      tagline: "Soft on the issues",
+      logo: null,
+      emoji: "🐑",
+    },
+    {
+      id: "chirpy",
+      name: "Chirpy the Chick",
+      tagline: "A fresh start for the fair",
+      logo: null,
+      emoji: "🐥",
+    },
+  ],
+};
 
-const CANDIDATES = [
-  { id: "barnaby", name: "Barnaby Bear",  title: "The Honey Candidate",  emoji: "🐻", logo: null, color: "#e67e22" },
-  { id: "clover",  name: "Clover Cow",    title: "Moo-ving Forward",     emoji: "🐄", logo: null, color: "#27ae60" },
-  { id: "finley",  name: "Finley Fox",    title: "Sly & Savvy",          emoji: "🦊", logo: null, color: "#e74c3c" },
-  { id: "penny",   name: "Penny Pig",     title: "Oink for Change",      emoji: "🐷", logo: null, color: "#e91e8c" },
-  { id: "duke",    name: "Duke Dog",      title: "A Paw for Progress",   emoji: "🐶", logo: null, color: "#3498db" },
-];
-
+// ── Locations ─────────────────────────────────────────────────────────────────
+// votes: { candidateId: count }
+// winnerId: the candidate who got the most real ticks on the ballot
 const LOCATIONS = [
   {
     id: "all",
     label: "All Fairs",
-    fullName: "All Fair Locations (Combined)",
-    votes: { barnaby: 134, clover: 98, finley: 62, penny: 110, duke: 76 },
+    name: "All Fair Locations (Combined)",
+    slate: "spring",
+    votes: { sunny: 72, betty: 58, frank: 89, linda: 41 },
+    winnerId: "frank",
   },
   {
-    id: "albemarle",
-    label: "Albemarle",
-    fullName: "Albemarle County Fair",
-    votes: { barnaby: 45, clover: 28, finley: 18, penny: 37, duke: 21 },
+    id: "gordonsville",
+    label: "Gordonsville",
+    name: "Mayor of Spring — Gordonsville",
+    slate: "spring",
+    votes: { sunny: 34, betty: 27, frank: 48, linda: 19 },
+    winnerId: "frank",
   },
   {
-    id: "augusta",
-    label: "Augusta",
-    fullName: "Augusta County Fair",
-    votes: { barnaby: 31, clover: 42, finley: 22, penny: 19, duke: 15 },
+    id: "spring",
+    label: "Spring Fair",
+    name: "Mayor of Spring",
+    slate: "spring",
+    votes: { sunny: 38, betty: 31, frank: 41, linda: 22 },
+    winnerId: "frank",
   },
   {
-    id: "rockingham",
-    label: "Rockingham",
-    fullName: "Rockingham County Fair",
-    votes: { barnaby: 38, clover: 18, finley: 12, penny: 29, duke: 24 },
-  },
-  {
-    id: "nelson",
-    label: "Nelson",
-    fullName: "Nelson County Fair",
-    votes: { barnaby: 20, clover: 10, finley: 10, penny: 25, duke: 16 },
+    id: "hop",
+    label: "The Hop",
+    name: "Mayor of the Hop",
+    slate: "hop",
+    votes: { buttons: 45, bunny: 22, lulu: 17, chirpy: 31 },
+    winnerId: "buttons",
   },
 ];
 
-// ── Render ────────────────────────────────────────────────────────────────────
-let activeLocation = LOCATIONS[0];
+// ── State & helpers ───────────────────────────────────────────────────────────
+let active = LOCATIONS[0];
 
 function totalVotes(votes) {
   return Object.values(votes).reduce((a, b) => a + b, 0);
 }
 
+// ── Render tabs ───────────────────────────────────────────────────────────────
 function renderTabs() {
-  const container = document.getElementById("tabs-container");
-  container.innerHTML = LOCATIONS.map(loc => `
+  document.getElementById("tabs-container").innerHTML = LOCATIONS.map(loc => `
     <button
-      class="tab-btn ${loc.id === activeLocation.id ? 'active' : ''}"
-      data-id="${loc.id}"
+      class="tab-btn ${loc.id === active.id ? "active" : ""}"
       onclick="selectLocation('${loc.id}')"
     >${loc.label}</button>
   `).join("");
 }
 
+// ── Render results ────────────────────────────────────────────────────────────
 function renderResults() {
-  const loc = activeLocation;
+  const loc = active;
   const votes = loc.votes;
   const total = totalVotes(votes);
   const maxVotes = Math.max(...Object.values(votes));
+  const candidates = CANDIDATES[loc.slate];
 
-  document.getElementById("location-name").textContent = loc.fullName;
+  document.getElementById("location-heading-text").textContent = loc.name;
+  document.getElementById("vote-count-badge").textContent =
+    `${total} vote${total !== 1 ? "s" : ""} cast`;
 
-  const container = document.getElementById("candidates-container");
-  container.innerHTML = CANDIDATES.map(c => {
+  document.getElementById("candidates-container").innerHTML = candidates.map(c => {
     const v = votes[c.id] ?? 0;
     const pct = total > 0 ? Math.round((v / total) * 100) : 0;
-    const barWidth = total > 0 ? Math.round((v / maxVotes) * 100) : 0;
-    const isLeader = v === maxVotes && v > 0;
+    const barPct = total > 0 ? Math.round((v / maxVotes) * 100) : 0;
+    const isWinner = c.id === loc.winnerId;
 
-    const avatar = c.logo
-      ? `<img class="card-logo" src="${c.logo}" alt="${c.name}" />`
-      : `<span class="card-emoji">${c.emoji}</span>`;
+    const avatarHtml = c.logo
+      ? `<img class="card-avatar" src="${c.logo}" alt="${c.name}" />`
+      : `<div class="card-avatar" style="font-size:3.5rem;line-height:88px">${c.emoji}</div>`;
 
     return `
-      <div class="card ${isLeader ? 'leader' : ''}">
-        ${avatar}
+      <div class="card ${isWinner ? "winner" : ""}">
+        ${avatarHtml}
         <div class="card-name">${c.name}</div>
-        <div class="card-title">${c.title}</div>
+        <div class="card-tagline">"${c.tagline}"</div>
         <div class="bar-track">
-          <div class="bar-fill" style="width:${barWidth}%; background:${c.color};"></div>
+          <div class="bar-fill" style="width:${barPct}%"></div>
         </div>
-        <div class="card-votes">${v} votes <span class="card-pct">(${pct}%)</span></div>
+        <div class="card-stat">${v} votes<span class="card-pct">${pct}%</span></div>
       </div>
     `;
   }).join("");
 
-  const winner = CANDIDATES.find(c => (votes[c.id] ?? 0) === maxVotes);
-  document.getElementById("totals-strip").innerHTML =
-    `<span>🗳️ <strong>${total}</strong> total votes</span>
-     <span style="margin-left:auto">
-       Current leader: <strong>${winner ? winner.emoji + " " + winner.name : "—"}</strong>
-     </span>`;
+  const winner = candidates.find(c => c.id === loc.winnerId);
+  const runnerUp = [...candidates]
+    .sort((a, b) => (votes[b.id] ?? 0) - (votes[a.id] ?? 0))
+    .find(c => c.id !== loc.winnerId);
+
+  document.getElementById("summary-strip").innerHTML = `
+    <span>🗳️ <strong>${total}</strong> total votes</span>
+    <span class="summary-sep"></span>
+    <span>🏆 Winner: <strong>${winner ? winner.name : "—"}</strong></span>
+    ${runnerUp ? `<span class="summary-sep"></span><span>2nd: ${runnerUp.name}</span>` : ""}
+  `;
 }
 
+// ── Select location ───────────────────────────────────────────────────────────
 function selectLocation(id) {
-  activeLocation = LOCATIONS.find(l => l.id === id);
+  active = LOCATIONS.find(l => l.id === id);
   renderTabs();
   renderResults();
 }
 
-// Init
+// ── Init ──────────────────────────────────────────────────────────────────────
 renderTabs();
 renderResults();
 </script>
