@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mayor of the Fair 2026</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #fdf6e3;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    /* ── Widget shell (embeddable) ── */
+    .widget {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,.12);
+    }
+
+    /* ── Banner ── */
+    .banner {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7c59f 50%, #fffbe6 100%);
+      padding: 28px 24px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .banner::before {
+      content: "🎡 🎠 🎡 🎠 🎡 🎠 🎡 🎠 🎡 🎠 🎡 🎠 🎡 🎠 🎡";
+      font-size: 14px;
+      display: block;
+      letter-spacing: 4px;
+      opacity: .55;
+      margin-bottom: 8px;
+    }
+    .banner h1 {
+      font-size: clamp(1.5rem, 5vw, 2.4rem);
+      font-weight: 900;
+      color: #7b2d00;
+      text-shadow: 0 2px 0 rgba(255,255,255,.4);
+      line-height: 1.15;
+    }
+    .banner h1 span { color: #d94f00; }
+    .banner p {
+      margin-top: 6px;
+      font-size: .9rem;
+      color: #7b4a2d;
+    }
+    .badge {
+      display: inline-block;
+      background: #7b2d00;
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 99px;
+      margin-bottom: 8px;
+    }
+
+    /* ── Location tabs ── */
+    .tabs-wrap {
+      padding: 16px 20px 0;
+      border-bottom: 2px solid #f0e6d3;
+      background: #fff9f2;
+    }
+    .tabs-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #9e6a3c;
+      margin-bottom: 8px;
+    }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding-bottom: 0;
+    }
+    .tab-btn {
+      border: 2px solid #e8d5c0;
+      background: #fff;
+      color: #7b4a2d;
+      padding: 7px 14px;
+      border-radius: 10px 10px 0 0;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+      position: relative;
+      top: 2px;
+    }
+    .tab-btn:hover {
+      background: #fff3e8;
+      border-color: #d94f00;
+      color: #d94f00;
+    }
+    .tab-btn.active {
+      background: #d94f00;
+      border-color: #d94f00;
+      color: #fff;
+      top: 2px;
+    }
+
+    /* ── Results body ── */
+    .results-body {
+      padding: 20px;
+    }
+
+    .location-title {
+      font-size: .85rem;
+      font-weight: 700;
+      color: #9e6a3c;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 16px;
+    }
+    .location-title span {
+      color: #222;
+      font-size: 1rem;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* ── Candidate cards ── */
+    .candidates {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      border: 2px solid #f0e6d3;
+      border-radius: 14px;
+      padding: 14px 12px 12px;
+      text-align: center;
+      background: #fff;
+      transition: transform .18s, box-shadow .18s, border-color .18s;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,.1);
+    }
+    .card.leader {
+      border-color: #f7c200;
+      background: linear-gradient(160deg, #fffde7 0%, #fff9c4 100%);
+      box-shadow: 0 0 0 3px #f7c20044;
+    }
+    .card.leader::after {
+      content: "🏆 Leading";
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f7c200;
+      color: #5a4000;
+      font-size: .65rem;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+
+    .card-emoji {
+      font-size: 2.8rem;
+      line-height: 1;
+      margin-bottom: 6px;
+      display: block;
+      /* placeholder for real candidate logo */
+    }
+    .card-logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      margin-bottom: 6px;
+      border-radius: 50%;
+      border: 2px solid #f0e6d3;
+    }
+    .card-name {
+      font-size: .88rem;
+      font-weight: 800;
+      color: #333;
+      line-height: 1.25;
+      margin-bottom: 2px;
+    }
+    .card-title {
+      font-size: .7rem;
+      color: #9e6a3c;
+      margin-bottom: 8px;
+    }
+
+    /* bar */
+    .bar-track {
+      height: 10px;
+      background: #f0e6d3;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width .7s cubic-bezier(.4,0,.2,1);
+    }
+    .card-votes {
+      font-size: .78rem;
+      font-weight: 700;
+      color: #555;
+    }
+    .card-pct {
+      font-size: .68rem;
+      color: #999;
+      margin-left: 3px;
+    }
+
+    /* ── Total strip ── */
+    .totals-strip {
+      background: #fff9f2;
+      border: 1px solid #f0e6d3;
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .8rem;
+      color: #7b4a2d;
+    }
+    .totals-strip strong { color: #333; }
+
+    /* ── Footer ── */
+    .widget-footer {
+      padding: 12px 20px;
+      border-top: 1px solid #f0e6d3;
+      background: #fff9f2;
+      font-size: .7rem;
+      color: #b08060;
+      text-align: center;
+    }
+    .widget-footer a { color: #d94f00; text-decoration: none; }
+    .widget-footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .candidates { grid-template-columns: repeat(2, 1fr); }
+      .tabs { gap: 4px; }
+      .tab-btn { padding: 6px 10px; font-size: .75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="widget" id="motf-widget">
+
+  <!-- Banner -->
+  <div class="banner">
+    <div class="badge">Virginia Voter Guide 2026</div>
+    <h1>Mayor of the <span>Fair</span> 🎪</h1>
+    <p>Kids at local fairs picked their favorite candidate. Who's winning?</p>
+  </div>
+
+  <!-- Location tabs -->
+  <div class="tabs-wrap">
+    <div class="tabs-label">Choose a fair location</div>
+    <div class="tabs" id="tabs-container"></div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-body">
+    <div class="location-title">Results at: <span id="location-name"></span></div>
+    <div class="candidates" id="candidates-container"></div>
+    <div class="totals-strip" id="totals-strip"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="widget-footer">
+    Kids voted at community tabling events &mdash;
+    <a href="https://vva.lfg.guide" target="_blank">Virginia Voter Guide 2026</a>
+    &bull; Not a real election
+  </div>
+
+</div>
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────────────
+// Replace with real data. Each candidate has an emoji fallback; swap `logo`
+// for an actual image path when assets are ready.
+
+const CANDIDATES = [
+  { id: "barnaby", name: "Barnaby Bear",  title: "The Honey Candidate",  emoji: "🐻", logo: null, color: "#e67e22" },
+  { id: "clover",  name: "Clover Cow",    title: "Moo-ving Forward",     emoji: "🐄", logo: null, color: "#27ae60" },
+  { id: "finley",  name: "Finley Fox",    title: "Sly & Savvy",          emoji: "🦊", logo: null, color: "#e74c3c" },
+  { id: "penny",   name: "Penny Pig",     title: "Oink for Change",      emoji: "🐷", logo: null, color: "#e91e8c" },
+  { id: "duke",    name: "Duke Dog",      title: "A Paw for Progress",   emoji: "🐶", logo: null, color: "#3498db" },
+];
+
+const LOCATIONS = [
+  {
+    id: "all",
+    label: "All Fairs",
+    fullName: "All Fair Locations (Combined)",
+    votes: { barnaby: 134, clover: 98, finley: 62, penny: 110, duke: 76 },
+  },
+  {
+    id: "albemarle",
+    label: "Albemarle",
+    fullName: "Albemarle County Fair",
+    votes: { barnaby: 45, clover: 28, finley: 18, penny: 37, duke: 21 },
+  },
+  {
+    id: "augusta",
+    label: "Augusta",
+    fullName: "Augusta County Fair",
+    votes: { barnaby: 31, clover: 42, finley: 22, penny: 19, duke: 15 },
+  },
+  {
+    id: "rockingham",
+    label: "Rockingham",
+    fullName: "Rockingham County Fair",
+    votes: { barnaby: 38, clover: 18, finley: 12, penny: 29, duke: 24 },
+  },
+  {
+    id: "nelson",
+    label: "Nelson",
+    fullName: "Nelson County Fair",
+    votes: { barnaby: 20, clover: 10, finley: 10, penny: 25, duke: 16 },
+  },
+];
+
+// ── Render ────────────────────────────────────────────────────────────────────
+let activeLocation = LOCATIONS[0];
+
+function totalVotes(votes) {
+  return Object.values(votes).reduce((a, b) => a + b, 0);
+}
+
+function renderTabs() {
+  const container = document.getElementById("tabs-container");
+  container.innerHTML = LOCATIONS.map(loc => `
+    <button
+      class="tab-btn ${loc.id === activeLocation.id ? 'active' : ''}"
+      data-id="${loc.id}"
+      onclick="selectLocation('${loc.id}')"
+    >${loc.label}</button>
+  `).join("");
+}
+
+function renderResults() {
+  const loc = activeLocation;
+  const votes = loc.votes;
+  const total = totalVotes(votes);
+  const maxVotes = Math.max(...Object.values(votes));
+
+  document.getElementById("location-name").textContent = loc.fullName;
+
+  const container = document.getElementById("candidates-container");
+  container.innerHTML = CANDIDATES.map(c => {
+    const v = votes[c.id] ?? 0;
+    const pct = total > 0 ? Math.round((v / total) * 100) : 0;
+    const barWidth = total > 0 ? Math.round((v / maxVotes) * 100) : 0;
+    const isLeader = v === maxVotes && v > 0;
+
+    const avatar = c.logo
+      ? `<img class="card-logo" src="${c.logo}" alt="${c.name}" />`
+      : `<span class="card-emoji">${c.emoji}</span>`;
+
+    return `
+      <div class="card ${isLeader ? 'leader' : ''}">
+        ${avatar}
+        <div class="card-name">${c.name}</div>
+        <div class="card-title">${c.title}</div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:${barWidth}%; background:${c.color};"></div>
+        </div>
+        <div class="card-votes">${v} votes <span class="card-pct">(${pct}%)</span></div>
+      </div>
+    `;
+  }).join("");
+
+  const winner = CANDIDATES.find(c => (votes[c.id] ?? 0) === maxVotes);
+  document.getElementById("totals-strip").innerHTML =
+    `<span>🗳️ <strong>${total}</strong> total votes</span>
+     <span style="margin-left:auto">
+       Current leader: <strong>${winner ? winner.emoji + " " + winner.name : "—"}</strong>
+     </span>`;
+}
+
+function selectLocation(id) {
+  activeLocation = LOCATIONS.find(l => l.id === id);
+  renderTabs();
+  renderResults();
+}
+
+// Init
+renderTabs();
+renderResults();
+</script>
+</body>
+</html>
