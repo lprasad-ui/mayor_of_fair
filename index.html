@@ -176,7 +176,7 @@
       background: var(--white);
       transition: transform .2s, box-shadow .2s, border-color .2s;
       position: relative;
-      opacity: .7;
+      opacity: .9;
     }
     .card:hover {
       transform: translateY(-4px);
@@ -204,6 +204,9 @@
       text-transform: uppercase;
       padding: 2px 14px;
       white-space: nowrap;
+    }
+    .card.winner[data-tie="true"]::before {
+      content: "🏆 Co-Winner";
     }
 
     .card-avatar {
@@ -319,13 +322,13 @@ const CANDIDATES = {
   ],
 };
 
-// ── Locations (winnerId = ballot tally winner) ────────────────────────────────
+// ── Locations (winnerIds = ballot tally winners, supports ties) ───────────────
 const LOCATIONS = [
-  { id: "gordonsville", label: "Gordonsville in Bloom",  name: "Mayor of Spring — Gordonsville", slate: "spring", winnerId: "linda"    },
-  { id: "spring",       label: "Spring Festival, Lovingston",   name: "Mayor of Spring",                slate: "spring", winnerIds: ["frank", "betty"]    },
-  { id: "hop",          label: "Easter Bash, Charlottesville",       name: "Mayor of the Hop",               slate: "hop",    winnerId: "buttons"  },
-  { id: "river",        label: "Rivanna River Fest, Charlottesville",     name: "Mayor of the River",             slate: "river",  winnerId: "tom"      },
-  { id: "farm",         label: "Farm Festival, Louisa",      name: "Mayor of the Farm",              slate: "farm",   winnerId: "pete"    },
+  { id: "gordonsville", label: "Gordonsville in Bloom",              name: "Mayor of Spring — Gordonsville", slate: "spring", winnerIds: ["linda"]           },
+  { id: "spring",       label: "Spring Festival, Lovingston",        name: "Mayor of Spring — Lovingston",  slate: "spring", winnerIds: ["betty", "frank"]  },
+  { id: "hop",          label: "Easter Bash, Charlottesville",       name: "Mayor of the Hop",              slate: "hop",    winnerIds: ["buttons"]         },
+  { id: "river",        label: "Rivanna River Fest, Charlottesville",name: "Mayor of the River",            slate: "river",  winnerIds: ["tom"]             },
+  { id: "farm",         label: "Farm Festival, Louisa",              name: "Mayor of the Farm",             slate: "farm",   winnerIds: ["pete"]            },
 ];
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -349,13 +352,14 @@ function renderResults() {
   document.getElementById("location-heading-text").textContent = loc.name;
 
   document.getElementById("candidates-container").innerHTML = candidates.map(c => {
-    const isWinner = c.id === loc.winnerId;
+    const isWinner = loc.winnerIds.includes(c.id);
+    const isTie = loc.winnerIds.length > 1;
     const avatarHtml = c.logo
       ? `<img class="card-avatar" src="${c.logo}" alt="${c.name}" />`
       : `<div class="card-avatar" style="font-size:3.8rem;line-height:100px">${c.emoji}</div>`;
 
     return `
-      <div class="card ${isWinner ? "winner" : ""}">
+      <div class="card ${isWinner ? "winner" : ""}" ${isWinner && isTie ? 'data-tie="true"' : ""}>
         ${avatarHtml}
         <div class="card-name">${c.name}</div>
         <div class="card-tagline">"${c.tagline}"</div>
