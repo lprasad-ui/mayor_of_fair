@@ -161,30 +161,22 @@
       color: var(--purple);
       letter-spacing: .01em;
     }
-    .vote-count-badge {
-      background: var(--orange-20);
-      color: var(--orange);
-      font-size: 16px;
-      font-weight: 700;
-      padding: 3px 12px;
-      border: 1px solid var(--orange-60);
-    }
-
     /* ── Candidate grid ──────────────────────────────────────────────────────── */
     .candidates {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 14px;
-      margin-bottom: 18px;
+      gap: 18px;
+      margin-bottom: 0;
     }
 
     .card {
       border: 2px solid var(--charcoal-20);
-      padding: 18px 12px 14px;
+      padding: 22px 12px 16px;
       text-align: center;
       background: var(--white);
       transition: transform .2s, box-shadow .2s, border-color .2s;
       position: relative;
+      opacity: .7;
     }
     .card:hover {
       transform: translateY(-4px);
@@ -193,8 +185,9 @@
     }
 
     .card.winner {
-      border-color: var(--teal);
+      border: 3px solid var(--teal);
       background: var(--teal-20);
+      opacity: 1;
     }
     .card.winner::before {
       content: "🏆 Winner";
@@ -214,8 +207,8 @@
     }
 
     .card-avatar {
-      width: 92px;
-      height: 92px;
+      width: 100px;
+      height: 100px;
       object-fit: contain;
       margin: 0 auto 10px;
       display: block;
@@ -233,56 +226,11 @@
     }
     .card-tagline {
       font-size: 16px;
-      font-weight: 300;       /* caption weight: Light (Brand Guide §4.3) */
+      font-weight: 300;
       color: var(--purple-60);
       font-style: italic;
-      margin-bottom: 12px;
       line-height: 1.3;
       min-height: 3.9em;
-    }
-
-    .bar-track {
-      height: 10px;
-      background: var(--charcoal-20);
-      overflow: hidden;
-      margin-bottom: 6px;
-    }
-    .bar-fill {
-      height: 100%;
-      background: var(--teal);
-      transition: width .65s cubic-bezier(.4,0,.2,1);
-    }
-
-    .card-stat {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--charcoal);
-    }
-    .card-pct {
-      font-size: 16px;
-      color: var(--purple-60);
-      margin-left: 4px;
-      font-weight: 400;
-    }
-
-    /* ── Summary strip ───────────────────────────────────────────────────────── */
-    .summary-strip {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: var(--purple-10);
-      border: 1.5px solid var(--charcoal-20);
-      padding: 12px 18px;
-      font-size: 16px;
-      color: var(--charcoal);
-      flex-wrap: wrap;
-    }
-    .summary-strip strong { color: var(--purple); }
-    .summary-sep {
-      width: 1px;
-      height: 18px;
-      background: var(--charcoal-20);
-      flex-shrink: 0;
     }
 
     /* ── Footer ─────────────────────────────────────────────────────────────── */
@@ -330,10 +278,8 @@
   <div class="results-body">
     <div class="location-heading">
       <h2 id="location-heading-text"></h2>
-      <span class="vote-count-badge" id="vote-count-badge"></span>
     </div>
     <div class="candidates" id="candidates-container"></div>
-    <div class="summary-strip" id="summary-strip"></div>
   </div>
 
   <!-- Footer -->
@@ -345,111 +291,45 @@
 </div>
 
 <script>
-// ── Candidate roster ──────────────────────────────────────────────────────────
-// taglines come from the voter guide PDFs
+// ── Candidate rosters (taglines from voter guide PDFs) ────────────────────────
 const CANDIDATES = {
   spring: [
-    {
-      id: "sunny",
-      name: "Sunny the Sunshine",
-      tagline: "I will make every day bright and fun",
-      logo: "assets/candidates/sunny-the-sunshine.svg",
-    },
-    {
-      id: "betty",
-      name: "Betty the Butterfly",
-      tagline: "I will throw magical dance parties",
-      logo: "assets/candidates/betty-the-butterfly.png",
-    },
-    {
-      id: "frank",
-      name: "Frank the Flower",
-      tagline: "I will turn every place into a colorful garden",
-      logo: "assets/candidates/frank-the-flower.png",
-    },
-    {
-      id: "linda",
-      name: "Linda the Ladybug",
-      tagline: "I will be your tiny superhero",
-      logo: "assets/candidates/linda-the-ladybug.png",
-    },
+    { id: "sunny", name: "Sunny the Sunshine", tagline: "I will make every day bright and fun",              logo: "assets/candidates/sunny-the-sunshine.svg" },
+    { id: "betty", name: "Betty the Butterfly", tagline: "I will throw magical dance parties",               logo: "assets/candidates/betty-the-butterfly.png" },
+    { id: "frank", name: "Frank the Flower",    tagline: "I will turn every place into a colorful garden",  logo: "assets/candidates/frank-the-flower.png" },
+    { id: "linda", name: "Linda the Ladybug",   tagline: "I will be your tiny superhero",                   logo: "assets/candidates/linda-the-ladybug.png" },
   ],
   hop: [
-    {
-      id: "buttons",
-      name: "Buttons",
-      tagline: "Buttons for Mayor!",
-      logo: null,
-      emoji: "🐶",
-    },
-    {
-      id: "bunny",
-      name: "Easter Bunny",
-      tagline: "Hoppy days are coming",
-      logo: null,
-      emoji: "🐰",
-    },
-    {
-      id: "lulu",
-      name: "Lulu the Lamb",
-      tagline: "Soft on the issues",
-      logo: null,
-      emoji: "🐑",
-    },
-    {
-      id: "chirpy",
-      name: "Chirpy the Chick",
-      tagline: "A fresh start for the fair",
-      logo: null,
-      emoji: "🐥",
-    },
+    { id: "buttons", name: "Buttons",           tagline: "Buttons for Mayor!",             logo: null, emoji: "🐶" },
+    { id: "bunny",   name: "Easter Bunny",       tagline: "Hoppy days are coming",          logo: null, emoji: "🐰" },
+    { id: "lulu",    name: "Lulu the Lamb",      tagline: "Soft on the issues",             logo: null, emoji: "🐑" },
+    { id: "chirpy",  name: "Chirpy the Chick",   tagline: "A fresh start for the fair",     logo: null, emoji: "🐥" },
+  ],
+  river: [
+    { id: "don",    name: "Don the Duck",        tagline: "I will protect my friends by watching from above, getting rid of bugs!", logo: null, emoji: "🦆" },
+    { id: "dana",   name: "Dana the Dragonfly",  tagline: "I will keep the river fun by spreading seeds for plants to grow!",       logo: "assets/candidates/dana-the-dragonfly.png" },
+    { id: "tom",    name: "Tom the Turtle",      tagline: "I will make the river clean and get rid of all the dead plants.",        logo: "assets/candidates/tom-the-turtle.png" },
+    { id: "felicia",name: "Felicia the Fish",    tagline: "I will provide food for animals and people!",                            logo: "assets/candidates/felicia-the-fish.png" },
+  ],
+  farm: [
+    { id: "betsy",     name: "Betsy the Cow",        tagline: "Free Ice Cream Fridays!",       logo: null, emoji: "🐄" },
+    { id: "henrietta", name: "Henrietta the Chicken", tagline: "Egg Hunts every weekend!",     logo: null, emoji: "🐔" },
+    { id: "gary",      name: "Gary the Goat",         tagline: "Water balloon Saturdays!",     logo: null, emoji: "🐐" },
+    { id: "pete",      name: "Pete the Pig",           tagline: "Free Cupcakes Tuesdays!",     logo: null, emoji: "🐷" },
   ],
 };
 
-// ── Locations ─────────────────────────────────────────────────────────────────
-// votes: { candidateId: count }
-// winnerId: the candidate who got the most real ticks on the ballot
+// ── Locations (winnerId = ballot tally winner) ────────────────────────────────
 const LOCATIONS = [
-  {
-    id: "all",
-    label: "All Fairs",
-    name: "All Fair Locations (Combined)",
-    slate: "spring",
-    votes: { sunny: 72, betty: 58, frank: 89, linda: 41 },
-    winnerId: "frank",
-  },
-  {
-    id: "gordonsville",
-    label: "Gordonsville",
-    name: "Mayor of Spring — Gordonsville",
-    slate: "spring",
-    votes: { sunny: 34, betty: 27, frank: 48, linda: 19 },
-    winnerId: "frank",
-  },
-  {
-    id: "spring",
-    label: "Spring Fair",
-    name: "Mayor of Spring",
-    slate: "spring",
-    votes: { sunny: 38, betty: 31, frank: 41, linda: 22 },
-    winnerId: "frank",
-  },
-  {
-    id: "hop",
-    label: "The Hop",
-    name: "Mayor of the Hop",
-    slate: "hop",
-    votes: { buttons: 45, bunny: 22, lulu: 17, chirpy: 31 },
-    winnerId: "buttons",
-  },
+  { id: "gordonsville", label: "Gordonsville",  name: "Mayor of Spring — Gordonsville", slate: "spring", winnerId: "frank"    },
+  { id: "spring",       label: "Spring Fair",   name: "Mayor of Spring",                slate: "spring", winnerId: "frank"    },
+  { id: "hop",          label: "The Hop",       name: "Mayor of the Hop",               slate: "hop",    winnerId: "buttons"  },
+  { id: "river",        label: "The River",     name: "Mayor of the River",             slate: "river",  winnerId: "don"      },
+  { id: "farm",         label: "The Farm",      name: "Mayor of the Farm",              slate: "farm",   winnerId: "betsy"    },
 ];
 
-// ── State & helpers ───────────────────────────────────────────────────────────
+// ── State ─────────────────────────────────────────────────────────────────────
 let active = LOCATIONS[0];
-
-function totalVotes(votes) {
-  return Object.values(votes).reduce((a, b) => a + b, 0);
-}
 
 // ── Render tabs ───────────────────────────────────────────────────────────────
 function renderTabs() {
@@ -464,49 +344,24 @@ function renderTabs() {
 // ── Render results ────────────────────────────────────────────────────────────
 function renderResults() {
   const loc = active;
-  const votes = loc.votes;
-  const total = totalVotes(votes);
-  const maxVotes = Math.max(...Object.values(votes));
   const candidates = CANDIDATES[loc.slate];
 
   document.getElementById("location-heading-text").textContent = loc.name;
-  document.getElementById("vote-count-badge").textContent =
-    `${total} vote${total !== 1 ? "s" : ""} cast`;
 
   document.getElementById("candidates-container").innerHTML = candidates.map(c => {
-    const v = votes[c.id] ?? 0;
-    const pct = total > 0 ? Math.round((v / total) * 100) : 0;
-    const barPct = total > 0 ? Math.round((v / maxVotes) * 100) : 0;
     const isWinner = c.id === loc.winnerId;
-
     const avatarHtml = c.logo
       ? `<img class="card-avatar" src="${c.logo}" alt="${c.name}" />`
-      : `<div class="card-avatar" style="font-size:3.5rem;line-height:92px">${c.emoji}</div>`;
+      : `<div class="card-avatar" style="font-size:3.8rem;line-height:100px">${c.emoji}</div>`;
 
     return `
       <div class="card ${isWinner ? "winner" : ""}">
         ${avatarHtml}
         <div class="card-name">${c.name}</div>
         <div class="card-tagline">"${c.tagline}"</div>
-        <div class="bar-track">
-          <div class="bar-fill" style="width:${barPct}%"></div>
-        </div>
-        <div class="card-stat">${v} votes<span class="card-pct">${pct}%</span></div>
       </div>
     `;
   }).join("");
-
-  const winner = candidates.find(c => c.id === loc.winnerId);
-  const runnerUp = [...candidates]
-    .sort((a, b) => (votes[b.id] ?? 0) - (votes[a.id] ?? 0))
-    .find(c => c.id !== loc.winnerId);
-
-  document.getElementById("summary-strip").innerHTML = `
-    <span>🗳️ <strong>${total}</strong> total votes</span>
-    <span class="summary-sep"></span>
-    <span>🏆 Winner: <strong>${winner ? winner.name : "—"}</strong></span>
-    ${runnerUp ? `<span class="summary-sep"></span><span>2nd: ${runnerUp.name}</span>` : ""}
-  `;
 }
 
 // ── Select location ───────────────────────────────────────────────────────────
