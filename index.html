@@ -4,111 +4,112 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mayor of the Fair 2026 — Virginia Voter Guide</title>
+  <!-- Brand typography (Charlottesville Tomorrow Brand Guide, May 2022):
+       Display: ITC Franklin Gothic Pro, Demi Compressed (H1-H3),
+                Medium Compressed (H4), Bold All-Caps (H5/H6)
+       Body:    ATF Franklin Gothic Regular; Captions: Light
+       Web fallbacks: Oswald (condensed display), Libre Franklin (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Franklin:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    /* ── Brand palette ─────────────────────────────────────────────────────────
-       Source: https://maketintsandshades.com/#colors=5b1453,009192,e96a26,46494b
-       #5b1453  plum / deep purple
-       #009192  teal
-       #e96a26  orange
-       #46494b  charcoal
+    /* ── Brand palette (Brand Guide §3.1) ─────────────────────────────────────
+       Charcoal #46494B · Purple #5b1453 · Teal #019192 · Orange #E96A26
+       Tints in 20% increments only (§3.3); shades in 20% increments (§3.4)
     ──────────────────────────────────────────────────────────────────────────── */
     :root {
-      --plum:     #5b1453;
-      --plum-lt:  #8c4585;   /* ~40% tint */
-      --plum-bg:  #f5eef4;   /* ~90% tint */
-      --teal:     #009192;
-      --teal-lt:  #66bfbf;
-      --teal-bg:  #e5f5f5;
-      --orange:   #e96a26;
-      --orange-lt:#f4a876;
-      --orange-bg:#fdf2ea;
-      --charcoal: #46494b;
-      --gray-lt:  #dfe0e1;
-      --white:    #ffffff;
+      --purple:      #5b1453;
+      --purple-60:   #9c7297;   /* 60% tint */
+      --purple-20:   #ded0dd;   /* 20% tint */
+      --purple-10:   #efe7ee;   /* 10% tint */
+      --teal:        #019192;
+      --teal-20:     #cce9e9;   /* 20% tint */
+      --orange:      #e96a26;
+      --orange-60:   #f2a57d;   /* 60% tint */
+      --orange-20:   #fbe1d4;   /* 20% tint */
+      --charcoal:    #46494b;
+      --charcoal-20: #dadbdb;   /* 20% tint */
+      --white:       #ffffff;
+
+      /* Typography (Brand Guide §4) */
+      --font-display: 'ITC Franklin Gothic Pro', 'Franklin Gothic Demi Cond',
+                      'Oswald', 'Arial Narrow', sans-serif;
+      --font-body:    'ATF Franklin Gothic', 'Franklin Gothic Book',
+                      'Libre Franklin', 'Franklin Gothic Medium', Arial, sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--plum-bg);
+      font-family: var(--font-body);
+      font-size: 16px;            /* minimum font size: 16px */
+      background: var(--purple-10);
       min-height: 100vh;
       padding: 20px 16px 40px;
+      color: var(--charcoal);
     }
 
     /* ── Widget shell ────────────────────────────────────────────────────────── */
     .widget {
-      max-width: 760px;
+      max-width: 800px;
       margin: 0 auto;
       background: var(--white);
-      border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 6px 32px rgba(91,20,83,.18);
     }
 
     /* ── Banner ─────────────────────────────────────────────────────────────── */
     .banner {
-      background: var(--plum);
-      padding: 28px 24px 22px;
+      background: var(--purple);
+      padding: 32px 24px 26px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
-    .banner::after {
-      /* subtle star-field texture */
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,.15) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,.08) 1px, transparent 1px);
-      background-size: 30px 30px, 17px 17px;
-      background-position: 0 0, 15px 15px;
-      pointer-events: none;
-    }
-    .banner-inner { position: relative; z-index: 1; }
     .eyebrow {
       display: inline-block;
       background: var(--orange);
       color: var(--white);
-      font-size: .68rem;
-      font-weight: 800;
-      letter-spacing: .1em;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 99px;
-      margin-bottom: 10px;
+      padding: 4px 14px;
+      margin-bottom: 12px;
     }
     .banner h1 {
-      font-size: clamp(1.6rem, 5vw, 2.6rem);
-      font-weight: 900;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 700;
+      text-transform: uppercase;
       color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 6px;
+      line-height: 1.05;
+      margin-bottom: 8px;
+      letter-spacing: .01em;
     }
     .banner h1 em {
       font-style: normal;
-      color: var(--orange-lt);
+      color: var(--orange-60);
     }
     .banner-sub {
-      font-size: .88rem;
-      color: rgba(255,255,255,.75);
-      max-width: 480px;
+      font-size: 16px;
+      color: var(--purple-20);
+      max-width: 520px;
       margin: 0 auto;
     }
 
     /* ── Location tabs ───────────────────────────────────────────────────────── */
     .tabs-section {
-      background: var(--plum-bg);
-      border-bottom: 2px solid var(--gray-lt);
-      padding: 14px 20px 0;
+      background: var(--purple-10);
+      border-bottom: 2px solid var(--charcoal-20);
+      padding: 16px 20px 0;
     }
     .tabs-label {
-      font-size: .68rem;
-      font-weight: 800;
-      letter-spacing: .1em;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      color: var(--plum-lt);
+      color: var(--purple);
       margin-bottom: 10px;
     }
     .tabs {
@@ -117,160 +118,149 @@
       flex-wrap: wrap;
     }
     .tab-btn {
-      border: 2px solid var(--gray-lt);
+      border: 2px solid var(--charcoal-20);
+      border-bottom: none;
       background: var(--white);
       color: var(--charcoal);
-      padding: 7px 16px;
-      border-radius: 10px 10px 0 0;
-      font-size: .82rem;
-      font-weight: 600;
+      padding: 9px 18px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .03em;
       cursor: pointer;
       transition: all .18s;
-      position: relative;
-      top: 2px;
       line-height: 1;
     }
     .tab-btn:hover {
       border-color: var(--teal);
       color: var(--teal);
-      background: var(--teal-bg);
+      background: var(--teal-20);
     }
     .tab-btn.active {
       background: var(--teal);
       border-color: var(--teal);
       color: var(--white);
     }
-    .tab-btn .tab-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      margin-right: 5px;
-      vertical-align: middle;
-      background: currentColor;
-      opacity: .6;
-    }
 
     /* ── Results body ────────────────────────────────────────────────────────── */
-    .results-body { padding: 22px 20px 20px; }
+    .results-body { padding: 24px 20px 20px; }
 
     .location-heading {
       display: flex;
       align-items: baseline;
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 22px;
       flex-wrap: wrap;
     }
     .location-heading h2 {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--plum);
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--purple);
+      letter-spacing: .01em;
     }
     .vote-count-badge {
-      background: var(--orange-bg);
+      background: var(--orange-20);
       color: var(--orange);
-      font-size: .72rem;
+      font-size: 16px;
       font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 99px;
-      border: 1px solid var(--orange-lt);
+      padding: 3px 12px;
+      border: 1px solid var(--orange-60);
     }
 
     /* ── Candidate grid ──────────────────────────────────────────────────────── */
     .candidates {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
       gap: 14px;
       margin-bottom: 18px;
     }
 
     .card {
-      border: 2px solid var(--gray-lt);
-      border-radius: 16px;
-      padding: 16px 12px 14px;
+      border: 2px solid var(--charcoal-20);
+      padding: 18px 12px 14px;
       text-align: center;
       background: var(--white);
       transition: transform .2s, box-shadow .2s, border-color .2s;
       position: relative;
-      cursor: default;
     }
     .card:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 22px rgba(91,20,83,.12);
-      border-color: var(--plum-lt);
+      border-color: var(--purple-60);
     }
 
-    /* Winner card */
     .card.winner {
       border-color: var(--teal);
-      background: var(--teal-bg);
+      background: var(--teal-20);
     }
     .card.winner::before {
       content: "🏆 Winner";
       position: absolute;
-      top: -13px;
+      top: -14px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--teal);
       color: var(--white);
-      font-size: .62rem;
-      font-weight: 800;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
       letter-spacing: .05em;
       text-transform: uppercase;
-      padding: 3px 12px;
-      border-radius: 99px;
+      padding: 2px 14px;
       white-space: nowrap;
     }
 
-    /* Candidate avatar */
     .card-avatar {
-      width: 88px;
-      height: 88px;
+      width: 92px;
+      height: 92px;
       object-fit: contain;
-      margin: 0 auto 8px;
+      margin: 0 auto 10px;
       display: block;
     }
 
     .card-name {
-      font-size: .9rem;
-      font-weight: 800;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
       color: var(--charcoal);
-      line-height: 1.2;
-      margin-bottom: 2px;
+      line-height: 1.15;
+      margin-bottom: 4px;
+      letter-spacing: .01em;
     }
     .card-tagline {
-      font-size: .68rem;
-      color: var(--plum-lt);
+      font-size: 16px;
+      font-weight: 300;       /* caption weight: Light (Brand Guide §4.3) */
+      color: var(--purple-60);
       font-style: italic;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       line-height: 1.3;
-      min-height: 2.6em;
+      min-height: 3.9em;
     }
 
-    /* Vote bar */
     .bar-track {
-      height: 8px;
-      background: var(--gray-lt);
-      border-radius: 99px;
+      height: 10px;
+      background: var(--charcoal-20);
       overflow: hidden;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
     .bar-fill {
       height: 100%;
-      border-radius: 99px;
       background: var(--teal);
       transition: width .65s cubic-bezier(.4,0,.2,1);
     }
-    .card.winner .bar-fill { background: var(--teal); }
 
     .card-stat {
-      font-size: .78rem;
+      font-size: 16px;
       font-weight: 700;
       color: var(--charcoal);
     }
     .card-pct {
-      font-size: .68rem;
-      color: #888;
+      font-size: 16px;
+      color: var(--purple-60);
       margin-left: 4px;
       font-weight: 400;
     }
@@ -279,30 +269,30 @@
     .summary-strip {
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: var(--plum-bg);
-      border: 1.5px solid var(--gray-lt);
-      border-radius: 12px;
-      padding: 10px 16px;
-      font-size: .8rem;
-      color: var(--plum-lt);
+      gap: 14px;
+      background: var(--purple-10);
+      border: 1.5px solid var(--charcoal-20);
+      padding: 12px 18px;
+      font-size: 16px;
+      color: var(--charcoal);
       flex-wrap: wrap;
     }
-    .summary-strip strong { color: var(--plum); }
+    .summary-strip strong { color: var(--purple); }
     .summary-sep {
       width: 1px;
-      height: 16px;
-      background: var(--gray-lt);
+      height: 18px;
+      background: var(--charcoal-20);
       flex-shrink: 0;
     }
 
     /* ── Footer ─────────────────────────────────────────────────────────────── */
     .widget-footer {
-      padding: 12px 20px;
-      border-top: 1.5px solid var(--gray-lt);
-      background: var(--plum-bg);
-      font-size: .7rem;
-      color: var(--plum-lt);
+      padding: 14px 20px;
+      border-top: 1.5px solid var(--charcoal-20);
+      background: var(--purple-10);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--charcoal);
       text-align: center;
     }
     .widget-footer a {
@@ -313,10 +303,9 @@
     .widget-footer a:hover { text-decoration: underline; }
 
     /* ── Responsive ─────────────────────────────────────────────────────────── */
-    @media (max-width: 500px) {
+    @media (max-width: 540px) {
       .candidates { grid-template-columns: repeat(2, 1fr); }
-      .banner h1 { font-size: 1.5rem; }
-      .tab-btn { padding: 6px 10px; font-size: .75rem; }
+      .tab-btn { padding: 8px 12px; }
     }
   </style>
 </head>
@@ -326,11 +315,9 @@
 
   <!-- Banner -->
   <div class="banner">
-    <div class="banner-inner">
-      <div class="eyebrow">Virginia Voter Guide 2026</div>
-      <h1>Mayor of the <em>Fair</em> 🎪</h1>
-      <p class="banner-sub">Kids at community tabling events picked their favorite candidate. See who's winning!</p>
-    </div>
+    <div class="eyebrow">Virginia Voter Guide 2026</div>
+    <h1>Mayor of the <em>Fair</em> 🎪</h1>
+    <p class="banner-sub">Kids at community tabling events picked their favorite candidate. See who's winning!</p>
   </div>
 
   <!-- Tabs -->
@@ -494,7 +481,7 @@ function renderResults() {
 
     const avatarHtml = c.logo
       ? `<img class="card-avatar" src="${c.logo}" alt="${c.name}" />`
-      : `<div class="card-avatar" style="font-size:3.5rem;line-height:88px">${c.emoji}</div>`;
+      : `<div class="card-avatar" style="font-size:3.5rem;line-height:92px">${c.emoji}</div>`;
 
     return `
       <div class="card ${isWinner ? "winner" : ""}">
